@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Les arbres binaires &#8212; NSI</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5fe18821" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=72dce1d2"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/translations.js?v=d99ca74e"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/cours';</script>
+    <script src="../_static/custom.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Recherche" href="../search.html" />
+    <link rel="next" title="Exercices" href="exercice.html" />
+    <link rel="prev" title="Activité de découverte" href="activite.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Passer au contenu principal</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Haut de page
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">NSI</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="activite.html">Activité de découverte</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Les arbres binaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercice.html">Exercices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tp_arbre_binaire.html">Parcourir un arbre binaire</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epreuve_pratique_sujet_3.html">Epreuve pratique</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/cours.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Les arbres binaires</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbre-binaire">Arbre binaire</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbres-binaires-particuliers">Arbres binaires particuliers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#taille-et-hauteur-dun-arbre-binaire">Taille et hauteur d’un arbre binaire</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="les-arbres-binaires">
+<h1>Les arbres binaires<a class="headerlink" href="#les-arbres-binaires" title="Link to this heading">#</a></h1>
+<p>Les structures arborescentes ou plus simplement <strong>arbres</strong> sont  des structures de données <strong>hiérarchiques</strong>.</p>
+<p>On peut définir un <strong>arbre</strong> par sa description hiérarchique :</p>
+<ul class="simple">
+<li><p>Au départ, on a un <strong>noeud racine</strong> qui possède plusieurs noeuds fils. Le noeud racine est alors le père des noeuds fils.</p></li>
+<li><p>Les fils sont reliés au noeud père par des <strong>arêtes</strong> ou des <strong>branches</strong>. Les noeuds fils ont eux-mêmes des noeuds fils.</p></li>
+<li><p>Si un noeud n’a pas de fils, alors c’est une <strong>feuille</strong>.</p></li>
+</ul>
+<figure class="align-center">
+<img alt="exemple arbre" src="../_images/arbre1.png" />
+</figure>
+<section id="arbre-binaire">
+<h2>Arbre binaire<a class="headerlink" href="#arbre-binaire" title="Link to this heading">#</a></h2>
+<div class="definition admonition">
+<p class="admonition-title">Définition</p>
+<p>Un <strong>arbre binaire</strong> est un arbre dont chaque nœud a <strong>au plus</strong> deux fils.</p>
+<p>On peut définir <strong>récursivement</strong> un arbre binaire:</p>
+<ul class="simple">
+<li><p>soit c’est un nœud sans fils (feuille) éventuellement vide;</p></li>
+<li><p>soit c’est un nœud racine qui a deux fils: un fils gauche et un fils droit qui sont eux-mêmes des arbres binaires.</p></li>
+</ul>
+</div>
+<p>La figure suivante est un arbre binaire. Chaque noeud qui n’est pas une feuille possède au moins un sous-arbre binaire.</p>
+<figure class="align-center">
+<img alt="exemple arbre" src="../_images/ex1_arbre.png" />
+</figure>
+<ul class="simple">
+<li><p>Le nœud racine contient la valeur entière 5.</p></li>
+<li><p>Le noeud racine a 2 sous-arbres : un <strong>sous-arbre binaire gauche</strong> qui a une racine de valeur 7 et un <strong>sous-arbre binaire droit</strong> qui a une racine de valeur 8.</p></li>
+<li><p>L’arbre binaire possède 3 feuilles qui ont les valeurs 1, 6 et 4.</p></li>
+</ul>
+<div class="definition admonition">
+<p class="admonition-title">Définitions</p>
+<ol class="arabic simple">
+<li><p><strong>Taille</strong> : nombre de noeuds (intermédiaires et feuilles) que possède un arbre.</p></li>
+<li><p><strong>Profondeur</strong> : la profondeur d’un noeud correspond à sa position dans l’arbre. La valeur attribuée à la profondeur d’un noeud dépend de la profondeur attribuée à la racine.</p>
+<ul class="simple">
+<li><p>Soit la racine est de profondeur 0 et cela signifie que la profondeur d’un nœud correspond au nombre de branches le séparant de la racine.</p></li>
+<li><p>Soit la racine est de profondeur 1 et cela signifie que la profondeur d’un nœud correspond au nombre de noeuds jusqu’à la racine.</p></li>
+</ul>
+</li>
+<li><p><strong>Niveau</strong> : tous les noeuds d’un arbre qui ont la même profondeur <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p></li>
+<li><p><strong>Hauteur</strong> : profondeur maximale d’un noeud de l’arbre.</p></li>
+</ol>
+</div>
+<p>On reprend l’arbre binaire précédent en posant la profondeur du noeud racine égale à 0.</p>
+<figure class="align-center">
+<img alt="exemple arbre" src="../_images/ex1_arbre.png" />
+</figure>
+<ul class="simple">
+<li><p>L’arbre possède 6 noeuds donc sa <strong>taille</strong> est 6.</p></li>
+<li><p>Le noeud contenant la valeur 6 a une <strong>profondeur</strong> de 2. Il y a 2 arêtes entre la racine et ce nœud.</p></li>
+<li><p>Le niveau 2 contient les noeuds de valeur 1, 6 et 4; ce sont des feuilles.</p></li>
+<li><p>La hauteur de cet arbre est égale à 2, ce qui correspond à la plus grande profondeur, celle des feuilles.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>On convient que la racine est de profondeur <span class="math notranslate nohighlight">\(0\)</span> et donc de hauteur <span class="math notranslate nohighlight">\(0\)</span>.
+Si la racine a une hauteur de 0, alors un arbre vide a une hauteur de -1.</p>
+</div>
+</section>
+<section id="arbres-binaires-particuliers">
+<h2>Arbres binaires particuliers<a class="headerlink" href="#arbres-binaires-particuliers" title="Link to this heading">#</a></h2>
+<p>Les arbres binaires peuvent avoir des formes très différentes. Deux arbres binaires qui ont la même hauteur n’ont pas nécessairement le même nombre de noeuds. Certains arbres ont très peu de noeuds alors que d’autres en ont beaucoup. On distingue ci-après plusieurs formes d’arbres binaires.</p>
+<p class="rubric">Arbre filiforme</p>
+<div class="definition admonition">
+<p class="admonition-title">Définition</p>
+<p>Un arbre binaire est <strong>filiforme</strong> si chaque noeud a <strong>exactement</strong> 1 fils.</p>
+</div>
+<div class="propriete admonition">
+<p class="admonition-title">Propriété</p>
+<p>Un arbre binaire filiforme de hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code> vérifie :</p>
+<ul class="simple">
+<li><p>Chaque niveau de profondeur <code class="docutils literal notranslate"><span class="pre">p</span></code> contient 1 noeud.</p></li>
+<li><p>L’arbre a une taille <code class="docutils literal notranslate"><span class="pre">n=h+1</span></code> noeuds.</p></li>
+</ul>
+</div>
+<p>L’arbre donné ci-dessous est filiforme de hauteur <code class="docutils literal notranslate"><span class="pre">h=2</span></code>. On voit que chaque noeud a un seul fils, à droite ou à gauche. La taille de cet arbre est <code class="docutils literal notranslate"><span class="pre">n=3</span></code>.</p>
+<figure class="align-center">
+<img alt="arbre filiforme" src="../_images/arbre_filiforme.png" />
+</figure>
+<p class="rubric">Arbre binaire complet</p>
+<div class="definition admonition">
+<p class="admonition-title">Définition</p>
+<p>Un arbre binaire est <strong>complet</strong> si chaque noeud a exactement 2 fils. C’est un arbre binaire sans trous.</p>
+</div>
+<div class="propriete admonition">
+<p class="admonition-title">Propriété</p>
+<p>Un arbre binaire complet de hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code> vérifie:</p>
+<ul class="simple">
+<li><p>Chaque niveau de profondeur <code class="docutils literal notranslate"><span class="pre">p</span></code> contient <span class="math notranslate nohighlight">\(2^{p}\)</span> noeuds.</p></li>
+<li><p>L’arbre a une taille <span class="math notranslate nohighlight">\(n=2^{h+1}-1\)</span> noeuds.</p></li>
+</ul>
+</div>
+<p>L’arbre binaire représenté ci-dessous est complet. Chaque noeud qui n’est pas une feuille a exactement 2 sous-arbres gauche et droit.</p>
+<figure class="align-center">
+<img alt="arbre complet" src="../_images/arbre_complet.png" />
+</figure>
+<p>L’arbre est complet de hauteur <code class="docutils literal notranslate"><span class="pre">h=2</span></code>.</p>
+<ul class="simple">
+<li><p>Le niveau de profondeur <code class="docutils literal notranslate"><span class="pre">p=1</span></code> contient <span class="math notranslate nohighlight">\(2^{1}=2\)</span> noeuds.</p></li>
+<li><p>La taille de cet arbre est <span class="math notranslate nohighlight">\(n=2^{3}-1=7\)</span> noeuds.</p></li>
+</ul>
+<p class="rubric">Arbre binaire tassé</p>
+<div class="definition admonition">
+<p class="admonition-title">Définition</p>
+<p>Un arbre binaire est <strong>bien tassé</strong> si chaque noeud a exactement 2 fils sauf sur le dernier niveau où il manque des feuilles, celles situées le plus à droite.</p>
+</div>
+<div class="propriete admonition">
+<p class="admonition-title">Propriété</p>
+<p>Un arbre binaire bien tassé de hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code> vérifie:</p>
+<ul class="simple">
+<li><p>Chaque niveau de profondeur <code class="docutils literal notranslate"><span class="pre">p</span></code> contient <span class="math notranslate nohighlight">\(2^{p}\)</span> noeuds, sauf le dernier niveau (les feuilles) qui en contient au plus <span class="math notranslate nohighlight">\(2^{h}\)</span>.</p></li>
+<li><p>L’arbre a une taille <code class="docutils literal notranslate"><span class="pre">n</span></code> comprise entre la taille d’un arbre complet de hauteur <code class="docutils literal notranslate"><span class="pre">h-1</span></code> et la taille d’un arbre complet de hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code>: <span class="math notranslate nohighlight">\(2^{h}-1 \leqslant n \leqslant 2^{h+1}-1\)</span>.</p></li>
+</ul>
+</div>
+<p>L’arbre binaire sur la figure ci-dessous est bien tassé de hauteur <code class="docutils literal notranslate"><span class="pre">h=2</span></code>.</p>
+<figure class="align-center">
+<img alt="arbre filiforme" src="../_images/arbre_tasse.png" />
+</figure>
+<p>La taille <code class="docutils literal notranslate"><span class="pre">n</span></code> de cet arbre est comprise entre la taille d’un arbre complet de hauteur <code class="docutils literal notranslate"><span class="pre">h-1</span></code> et la taille d’un arbre complet de hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code>, donc ici :</p>
+<div class="math notranslate nohighlight">
+\[2^{2}-1 \leqslant n \leqslant 2^{3}-1 \Longleftrightarrow 3 \leqslant n \leqslant 7.\]</div>
+<p>Ici, on vérifie que l’arbre bien tassé a une taille <span class="math notranslate nohighlight">\(n=6\)</span> noeuds comprise entre 3 et 7.</p>
+</section>
+<section id="taille-et-hauteur-dun-arbre-binaire">
+<h2>Taille et hauteur d’un arbre binaire<a class="headerlink" href="#taille-et-hauteur-dun-arbre-binaire" title="Link to this heading">#</a></h2>
+<p>On suppose que la racine de l’arbre est de profondeur 0.</p>
+<p class="rubric">Arbre de hauteur connue</p>
+<div class="propriete admonition">
+<p class="admonition-title">Propriété</p>
+<p>Un arbre de hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code> a une taille <code class="docutils literal notranslate"><span class="pre">n</span></code> telle que: <span class="math notranslate nohighlight">\(\boxed{h+1 \leqslant n \leqslant 2^{h+1}-1}\)</span></p>
+<ul class="simple">
+<li><p>Au minimum, l’arbre est <strong>filiforme</strong> donc a un seul noeud à chaque niveau et alors <code class="docutils literal notranslate"><span class="pre">n=h+1</span></code> noeuds pour être de hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code>;</p></li>
+<li><p>Au maximum, si l’arbre est <strong>complet</strong>, on a <span class="math notranslate nohighlight">\(2^{p}\)</span> noeuds à chaque niveau <code class="docutils literal notranslate"><span class="pre">p</span></code> et donc <span class="math notranslate nohighlight">\(2^{h}\)</span> noeuds sur le niveau de profondeur <code class="docutils literal notranslate"><span class="pre">h</span></code>.</p></li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Indication</p>
+<p>Le nombre de noeuds à chaque niveau est le terme d’une suite géométrique de raison <span class="math notranslate nohighlight">\(2\)</span> dont la somme de tous les termes vaut <span class="math notranslate nohighlight">\(2^{h+1}-1\)</span>.</p>
+</div>
+<p class="rubric">Arbre de taille connue</p>
+<div class="propriete admonition">
+<p class="admonition-title">Propriété</p>
+<p>Un arbre de taille <code class="docutils literal notranslate"><span class="pre">n</span></code> fixée a une hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code> qui vérifie <span class="math notranslate nohighlight">\(\boxed{\log_{2}(n) \leqslant h \leqslant n-1}\)</span>.</p>
+<ul class="simple">
+<li><p>Au maximum, l’arbre est <strong>filiforme</strong> de <code class="docutils literal notranslate"><span class="pre">n</span></code> nœuds a une hauteur <code class="docutils literal notranslate"><span class="pre">h=n-1</span></code>;</p></li>
+<li><p>Au minimum, si l’arbre est <strong>bien tassé</strong> alors le nombre de nœuds <code class="docutils literal notranslate"><span class="pre">n</span></code> est compris entre <span class="math notranslate nohighlight">\(2^{h}-1\)</span> et <span class="math notranslate nohighlight">\(2^{h+1}-1\)</span>.</p></li>
+</ul>
+</div>
+<p>Un arbre a une taille <code class="docutils literal notranslate"><span class="pre">n=17</span></code>. Selon la forme de cet arbre, sa hauteur varie.</p>
+<ul class="simple">
+<li><p>Le nombre <span class="math notranslate nohighlight">\(17\)</span> est encadré par les puissances de 2 : <span class="math notranslate nohighlight">\(2^{4}=16\)</span> et <span class="math notranslate nohighlight">\(2^{5}=32\)</span> donc <span class="math notranslate nohighlight">\(\log_{2}(17)\)</span> est compris entre 4 et 5, ce qui permet d’affirmer que la hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code> est supérieure à 4.</p></li>
+<li><p>La hauteur <code class="docutils literal notranslate"><span class="pre">h</span></code> est inférieure ou égale à <code class="docutils literal notranslate"><span class="pre">n-1=17-1=16</span></code>.</p></li>
+</ul>
+<p><strong>Conclusion</strong> : la hauteur <span class="math notranslate nohighlight">\(h\)</span> d’un arbre de taille <span class="math notranslate nohighlight">\(n=17\)</span> est comprise entre <span class="math notranslate nohighlight">\(4\)</span> et <span class="math notranslate nohighlight">\(16\)</span>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="activite.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Activité de découverte</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="exercice.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Exercices</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbre-binaire">Arbre binaire</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbres-binaires-particuliers">Arbres binaires particuliers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#taille-et-hauteur-dun-arbre-binaire">Taille et hauteur d’un arbre binaire</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par Yannick Chistel
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023,Yannick Chistel.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
